@@ -1,0 +1,271 @@
+split d'un commit
+
+modif du word qui fait le pull
+
+demo sur revert
+
+outils pour lier un outil exterieur avec un commit pour voir les delta de code qui ont �t� modifi�s
+
+git reset -- <fichier>
+
+
+************************************************************************************************
+git gc
+
+quitter le commit
+git reflog expire --expire-unreachable=now --all
+git gc --prune=now
+
+https://stackoverflow.com/questions/1904860/how-to-remove-unreferenced-blobs-from-my-git-repo
+
+
+************************************************************************************************
+git diff avec des chemins avec :git diff master
+
+voir document git diff commits
+
+If you're comparing different branches, you need to use -- to separate a git revision from a filesystem path. For example, with two local branches, master and bryan-working:
+
+$ git diff master -- AFolderOfCode/ bryan-working -- AFolderOfCode/
+Or from a local branch to a remote:
+
+$ git
+diff master -- AFolderOfCode/ origin/master -- AFolderOfCode/
+
+
+
+Various ways to check your working tree
+$ git diff            (1)
+$ git diff --cached   (2)
+$ git diff HEAD       (3)
+Changes in the working tree not yet staged for the next commit.
+
+Changes between the index and your last commit; what you would be committing if you run "git commit" without "-a" option.
+
+Changes in the working tree since your last commit; what you would be committing if you run "git commit -a"
+
+Comparing with arbitrary commits
+$ git diff test            (1)
+$ git diff HEAD -- ./test  (2)
+$ git diff HEAD^ HEAD      (3)
+Instead of using the tip of the current branch, compare with the tip of "test" branch.
+
+Instead of comparing with the tip of "test" branch, compare with the tip of the current branch, but limit the comparison to the file "test".
+
+Compare the version before the last commit and the last commit.
+
+Comparing branches
+$ git diff topic master    (1)
+$ git diff topic..master   (2)
+$ git diff topic...master  (3)
+Changes between the tips of the topic and the master branches.
+
+Same as above.
+
+Changes that occurred on the master branch since when the topic branch was started off it.
+
+Limiting the diff output
+$ git diff --diff-filter=MRC            (1)
+$ git diff --name-status                (2)
+$ git diff arch/i386 include/asm-i386   (3)
+Show only modification, rename, and copy, but not addition or deletion.
+
+Show only names and the nature of change, but not actual diff output.
+
+Limit diff output to named subtrees.
+
+Munging the diff output
+$ git diff --find-copies-harder -B -C  (1)
+$ git diff -R                          (2)
+Spend extra cycles to find renames, copies and complete rewrites (very expensive).
+
+Output diff in reverse.
+
+************************************************************************************************
+git checkout -- <nomfichier>
+
+git checkout stuff       # checkout the branch stuff
+git checkout -- stuff    # checkout the file stuff
+
+************************************************************************************************
+changer le nom d'un commit sans faire un autre commit
+
+pas trouv�
+https://help.github.com/articles/changing-a-commit-message/
+
+************************************************************************************************
+outils visuels de git
+
+https://git-scm.com/download/gui/linux
+
+
+
+git config --global user.Name "<username>" // 3 niveau de config pour git --local(repo) --global(user) --system(system wide)
+git config --global user.Mail "<UserMail>"
+git config --global help.autocorrect 10 // autocorrection des commandes mals tap�es
+git config --liste --local ou --global ou --system // liste des options de configuration
+git config --global push.default nothing // pas de push par d�faut. Git demande explicitement car nothing n'existe pas
+git config --global push.default simple // push de la branche locale s'il existe un branche avec le m�me nom en distant
+git config --global core.editor notepad // �diteur de fichier par d�faut
+
+git config --global core.safecrlf false // supprime les warning sur les fin de ligne CRLF
+
+git config --global --unset alias.cm // suppression d'un alias
+git config --global alias.co checkout // co est l'alias pour checkout
+git config --global alias.cm "commit -m"
+git config --global alias.unstage 'reset HEAD --' // unstage "git unstage myFile.txt" idem � "git reset HEAD -- myFile.txt"
+git config --global alias.undo 'reset --soft HEAD~1' // revert last commit
+git config --global alias.last 'log -1 HEAD' // infos sur le dernier commit
+git config --global alias.difflast 'diff --cached HEAD^' // diff sur le last commit et le code en cours
+alias gti='git' // pour les frappes en erreurs
+
+git status
+
+git add . ou git add -A ou git add --all // ajout de tous les fichiers y compris dans les sous dossiers
+git add file.txt
+git add --ignore-removal // ajoute au staging les nouveaux et les modifi�s mais pas les supprim�s
+git add -u // ajoute au staging les fichiers modifi�s et supprim�s mais pas les nouveaux
+
+git commit -m "message du commit"
+git commit -am "message du commit"  // fait un add et un commit avec message
+git commit --amend --reset-author // update du commit et donc ouverture d'un vi pour modif du message et maj du user avec le user d�fini avec git config
+
+git log // info sur le dernier commit
+git log --format=fuller // plus d'informations
+git log --format=raw // identique git cat-file -p <hash>git cat-fil -p 5c8b20
+git log --graph --oneline --decorate // Historique de la branche en cours avec graph et une seule ligne par commit
+git log --graph --oneline --decorate --all // Historique de toutes les branches avec graph et une seule ligne par commitgit branch
+
+git branch nomDeBranche // cr�ation de branche
+git branch -d <NomDeBranche> // suppression de branche si il n'y a pas de changement non fusionn�
+git branch -D <NomDeBranche> // force la suppression de branche dans tous les cas
+git checkout --track origin/feature/WathYouNeed // Permet de récupérer la branche distante et l'ajouter au local
+
+
+git update-ref -d HEAD // suppression de la premi�re branche
+log
+git checkout <nomDeBranche> ou <hashDeCommit> // changement de branche ou de commit
+git checkout - // switch vers la branche dans laquelle j'�tais avant
+git checkout -- <file> // destruction des modifications dans le working tree
+git checkout -b <branchName> // cr�ation de la branche et switch vers cette derni�re
+git checkout tags/<tag_name> -b <branch_name>
+
+git reset --hard NomDeLaBranche // positionne le HEADER sur le dernier commit de la branche sp�cifi�
+git reset --hard HashDuCommit // positionne le HEADER sur le dernier commit ayant ce hash
+git reset --hard HEAD^ // un retour avec destruction de commit en arri�re
+git reset --hard HEAD^^ // deux retour de commit en arri�re
+git reset --hard HEAD~10 // 10 retour de commit en arri�re
+git reset --soft HEAD^ // reset avant dernier commit de la branche mais garde le staging et le working directory
+git reset --mixed <branche> // reset au dernier commit en supprimant le staging
+
+
+git gc // garbage collector pour nettoyer les branches et les commit non utilis�s et inateignable
+
+git reflog show // montre tous les mouvements de HEAD
+git reflog NomDeBranche // montre tous les mouvements sur la branche
+
+git tag nomDuTag // met un tag � l'endroit o� l'on est
+git tag -d NomDuTag // suppression d'un tag
+git tag NomDuTag HashDuCommit // cr�ation d'un tag � n'importe quel endroit
+git tag -a annotedTag hash // suppression des changements dans le working tree
+git push --delete origin tagname Supprimer tag sur le server
+git tag --delete tagname Supprimer tag en local
+git tag -a v1.2 -m 'version 1.2' 9fceb02
+git ls-remote --tags origin    // See remote Tag
+git checkout tags/<tag_name> // Se positionner sur un certains tag
+
+git diff // trouver les diff�rences entre le working tree et le staging
+git diff --cached HEAD // diff�rences entre la derni�re version commit�e et le staging ,
+git diff HEAD // diff�rences entre la version HEAD et le working tree
+git diff --name-only HEAD // juste les noms des fichiers peut s'utiliser avec --chached ou rien � la place de HEAD
+git diff HEAD^ HEAD // compare le wt en cours avec le commit pr�c�dent
+
+git rebase -i HEAD~2 // Fusionner plusieurs commit en un seul / rebase les deux derniers commit - lire le contenu de la fne�tre qui s'ouvre pour les commandes suivantes
+git rebase -i sha // Fusionner plusieurs commit en un seul
+
+git merge <branche> // merge de la branche en cours et de la <branche>. Pas de commit et il reste le label de la <branche>. On par le de fast forwarding
+git merge --no-ff <branche> // identique � "git merge <branche>" mais sans fast forwarding et donc cr�ation d'un commit
+git merge <branche> --strategy-option theirs // MErge en gardant les données de la branche renseignée
+
+git cherry-pick <branche> or <hash> // copy le commit sur une autre branche (par ex transmission d'un bugfix)
+git cherry-pick --abort // annulation d'un cherry pick
+
+git clone <cheminRepoACloner> . //clone un repo dans le r�pertoire courant
+git clone --depth=1 -b release/releaseNAme --single-branch git@git.com:path/toTheRepo.git MyNewFolderName // Clone une certaine branche et un certain commit, ici le dernier
+
+git cat-file -p <hash> // info sur le commit et hash de l'arbre - Identique git log --format=raw
+
+// ATTENTION il n'est pas possible de faire un push vers une branch en checkeout
+git push <originName> <branchName> // push la modification le la branche <branchName> vers le repo <originName> (<originName> est le nom en rouge du type origin/melons)
+git push -u <originName> <branchName> // -u pour indique que l'on traque la branche distante
+
+git fetch // r�cup�re les objets de la branche dans laquelle on se trouve mais ne fait pas de merge comme le fait un pull
+
+git pull <originName> <localBranchName> // r�cup�rer les modification du repo <originName> et le mettre dans la branche <localBranchName>
+
+git remote // gestion des donn�es distantes, ajout, suppression, renommage, liste etc (voir doc officielle)
+git remote -v ou --verbose // avoir le d�tail des r�pertoires de fetch et de push
+git remote show <originName> // liste toutes les branches traqu�es par git par rapport au serveur <originName>
+git remote add <originName> <githubadress> // ajoute sans push le fichier dans le staging local
+    --> git remote add origin git@gitlab.safebrands.com:j.benselma/domainparser.git
+git remote rm name-of-origin-remote // Removing a remote
+git remote rename origin old-origin // REnaming a remote
+
+
+
+
+
+git stash // met en attente toutes les modifications SUR LES FICHIERS TRAQUES (�quivaut � git stash save)
+git stash -u // stash avec --include-untracked c'est � dire que l'on r�serve m�me les fichiers non traqu�s
+git stash apply <stashName> // application du stash sans le supprimer <stashName> sur la forme stash@{n} n >=0
+git stash apply stash@{<num�ro>} // application du stash num�ro <num�ro> (0 est le dernier, 1 l'avant dernier, etc.)
+git stash drop <stashName> // suppression du stash
+git stash pop <stashName> // fait un apply et un drop
+git stash clear // suppression de tous les stash
+
+file:///C:/Program%20Files/Git/mingw64/share/doc/git-doc/git-stash.html
+
+cat .git/HEAD // lit le contenu du fichier .git/HEAD et montre sur quoi pointe HEAD
+
+$ echo "Oranges" >> listedecourses.txt
+$ printf "\r\n" >> listedecourses.txt
+
+ll .git/objects/ //liste les fichiers pr�sent dans le r�pertoire
+
+
+Workflow
+https://www.atlassian.com/git/tutorials/comparing-workflows
+
+sudo -u www-data -H git pull origin master // git pull avec un autre utilisateur
+
+
+// Supprimer branch
+git push --delete origin nom-de-branch
+
+// Récupérer toutes les branches sur origin
+git fetch --all --prune
+
+// Retourne les branche et les commits en forme de shema
+git log --graph --oneline --decorate --all
+
+// Pour créer un allias git avec cette commande:
+git config --global alias.info 'log --graph --oneline --decorate --all' // ex: pour l'utiliser => 'git info'
+
+Tell Git not to track a file any more !!!
+$ git rm --cached [filenames] or git rm --cached [folder]
+$ git add .
+$ git commit -m ".gitignore Fix"
+
+Créer un allias GIT
+git config --global alias.nom_commande 'reset HEAD' // ex: 'git nom_commande'  executera => git reset HEAD
+
+
+
+
+Github :
+echo "# phpstorm64.vmoptions" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/beeAzul/phpstorm64.vmoptions.git
+git push -u origin master

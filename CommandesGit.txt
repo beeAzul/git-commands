@@ -256,6 +256,11 @@ $ git rm --cached [filenames] or git rm --cached [folder]
 $ git add .
 $ git commit -m ".gitignore Fix"
 
+Start ignoring the changes to the file
+$ git update-index --assume-unchanged path/to/file
+Start keeping track again
+$ git update-index --no-assume-unchanged path/to/file
+
 Créer un allias GIT
 git config --global alias.nom_commande 'reset HEAD' // ex: 'git nom_commande'  executera => git reset HEAD
 

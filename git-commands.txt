@@ -180,8 +180,13 @@ git diff HEAD // diff�rences entre la version HEAD et le working tree
 git diff --name-only HEAD // juste les noms des fichiers peut s'utiliser avec --chached ou rien � la place de HEAD
 git diff HEAD^ HEAD // compare le wt en cours avec le commit pr�c�dent
 
-git rebase -i HEAD~2 // Fusionner plusieurs commit en un seul / rebase les deux derniers commit - lire le contenu de la fne�tre qui s'ouvre pour les commandes suivantes
+git rebase -i HEAD~2 // Fusionner  (avec rebase) les deux derniers commit - lire le contenu de la fne�tre qui s'ouvre puis ecrire squash devant les commits a fusionner
 git rebase -i sha // Fusionner plusieurs commit en un seul
+-- ou --
+git checkout my_branch
+git reset --soft HEAD~4
+git commit
+git push --force origin my_branch
 
 git merge <branche> // merge de la branche en cours et de la <branche>. Pas de commit et il reste le label de la <branche>. On par le de fast forwarding
 git merge --no-ff <branche> // identique � "git merge <branche>" mais sans fast forwarding et donc cr�ation d'un commit

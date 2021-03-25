@@ -279,3 +279,19 @@ git add README.md
 git commit -m "first commit"
 git remote add origin https://github.com/beeAzul/phpstorm64.vmoptions.git
 git push -u origin master
+
+
+Git Rebase
+theirs is actually the current branch in the case of rebase. So the below set of commands are actually accepting your current branch changes over the remote branch.
+
+# see current branch
+$ git branch
+... 
+* branch-a
+# rebase preferring current branch changes during conflicts
+$ git rebase -X theirs branch-b
+Git Merge
+For merge, the meaning of theirs and ours is reversed. So, to get the same effect during a merge, i.e., keep your current branch changes (ours) over the remote branch being merged (theirs).
+
+# assuming branch-a is our current version
+$ git merge -X ours branch-b  # <- ours: branch-a, theirs: branch-b

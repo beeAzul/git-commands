@@ -297,4 +297,4 @@ For merge, the meaning of theirs and ours is reversed. So, to get the same effec
 $ git merge -X ours branch-b  # <- ours: branch-a, theirs: branch-b
 
 resolve known_hosts problems
-$ ssh-keyscan github.com >> known_hosts
+$ ssh-keyscan github.com >>  ~/.ssh/known_hosts

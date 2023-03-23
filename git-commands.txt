@@ -107,7 +107,7 @@ git config --liste --local ou --global ou --system // liste des options de confi
 git config --global push.default nothing // pas de push par d�faut. Git demande explicitement car nothing n'existe pas
 git config --global push.default simple // push de la branche locale s'il existe un branche avec le m�me nom en distant
 git config --global core.editor notepad // �diteur de fichier par d�faut
-
+git config --global --add --bool push.autoSetupRemote true // Automatically track remote branch. 'git push' to use it
 git config --global core.safecrlf false // supprime les warning sur les fin de ligne CRLF
 
 git config --global --unset alias.cm // suppression d'un alias
